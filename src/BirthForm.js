@@ -4,6 +4,8 @@ import { useState } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 function BirthForm() {
   const [form, setForm] = useState({
     childName: "",
@@ -46,7 +48,7 @@ function BirthForm() {
       const userId = localStorage.getItem("userId");
 
       const response = await axios.post(
-        "http://localhost:8081/api/birth/save",
+        `${API_URL}/api/birth/save`,
         {
           ...form,
           userId: userId

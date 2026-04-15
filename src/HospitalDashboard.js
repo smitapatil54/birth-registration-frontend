@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 function HospitalDashboard() {
   const [applications, setApplications] = useState([]);
 
@@ -14,7 +16,7 @@ function HospitalDashboard() {
   const loadApplications = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8081/api/birth/all"
+        `${API_URL}/api/birth/all`
       );
 
       const pendingApplications = response.data.filter(
@@ -32,7 +34,7 @@ function HospitalDashboard() {
   const approveApplication = async (id) => {
     try {
       await axios.put(
-        `http://localhost:8081/api/birth/status/${id}?status=Pending BMC Approval`
+        `${API_URL}/api/birth/status/${id}?status=Pending BMC Approval`
       );
 
       alert("Application Approved And Sent To BMC");
@@ -46,7 +48,7 @@ function HospitalDashboard() {
   const rejectApplication = async (id) => {
     try {
       await axios.put(
-        `http://localhost:8081/api/birth/status/${id}?status=Rejected By Hospital`
+        `${API_URL}/api/birth/status/${id}?status=Rejected By Hospital`
       );
 
       alert("Application Rejected");
@@ -66,7 +68,7 @@ function HospitalDashboard() {
 
     try {
       await axios.delete(
-        `http://localhost:8081/api/birth/delete/${id}`
+        `${API_URL}/api/birth/delete/${id}`
       );
 
       alert("Application Deleted");
@@ -84,7 +86,7 @@ function HospitalDashboard() {
     }
 
     window.open(
-      `http://localhost:8081/uploads/${fileName}`,
+      `${API_URL}/uploads/${fileName}`,
       "_blank"
     );
   };

@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 function BmcDashboard() {
   const [applications, setApplications] = useState([]);
 
@@ -14,7 +16,7 @@ function BmcDashboard() {
   const loadApplications = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8081/api/birth/all"
+        `${API_URL}/api/birth/all`
       );
 
       const approvedApplications = response.data.filter(
@@ -35,7 +37,7 @@ function BmcDashboard() {
     }
 
     window.open(
-      `http://localhost:8081/uploads/${fileName}`,
+      `${API_URL}/uploads/${fileName}`,
       "_blank"
     );
   };
@@ -60,12 +62,12 @@ function BmcDashboard() {
       };
 
       await axios.post(
-        "http://localhost:8081/api/certificate/save",
+        `${API_URL}/api/certificate/save`,
         certificateData
       );
 
       await axios.put(
-        `http://localhost:8081/api/birth/status/${application.id}?status=Certificate Generated`
+        `${API_URL}/api/birth/status/${application.id}?status=Certificate Generated`
       );
 
       alert("Certificate Generated Successfully");
@@ -79,7 +81,7 @@ function BmcDashboard() {
   const rejectApplication = async (id) => {
     try {
       await axios.put(
-        `http://localhost:8081/api/birth/status/${id}?status=Rejected By BMC`
+        `${API_URL}/api/birth/status/${id}?status=Rejected By BMC`
       );
 
       alert("Application Rejected");

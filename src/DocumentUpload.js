@@ -4,6 +4,8 @@ import { useState } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 function DocumentUpload() {
   const [documents, setDocuments] = useState({
     motherAadhar: null,
@@ -81,7 +83,7 @@ function DocumentUpload() {
       }
 
       const response = await axios.post(
-        "http://localhost:8081/api/document/save",
+        `${API_URL}/api/document/save`,
         formData,
         {
           headers: {

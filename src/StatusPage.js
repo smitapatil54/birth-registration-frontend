@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 function StatusPage() {
   const [application, setApplication] = useState(null);
 
@@ -23,7 +25,7 @@ function StatusPage() {
       }
 
       const response = await axios.get(
-        `http://localhost:8081/api/birth/${savedApplication.id}`
+        `${API_URL}/api/birth/${savedApplication.id}`
       );
 
       setApplication(response.data);

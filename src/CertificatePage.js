@@ -3,6 +3,8 @@ import axios from "axios";
 import QRCode from "react-qr-code";
 import "bootstrap/dist/css/bootstrap.min.css";
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 function CertificatePage() {
   const [certificate, setCertificate] = useState(null);
   const certificateRef = useRef();
@@ -18,7 +20,7 @@ function CertificatePage() {
       );
 
       const response = await axios.get(
-        `http://localhost:8081/api/certificate/birth/${birthRegistration.id}`
+        `${API_URL}/api/certificate/birth/${birthRegistration.id}`
       );
 
       setCertificate(response.data);

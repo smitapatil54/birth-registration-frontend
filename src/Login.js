@@ -4,6 +4,8 @@ import { useState } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 function Login() {
   const [user, setUser] = useState({
     email: "",
@@ -29,7 +31,7 @@ function Login() {
       setLoading(true);
 
       const response = await axios.post(
-        "http://localhost:8081/api/user/login",
+        `${API_URL}/api/user/login`,
         user
       );
 
@@ -50,7 +52,7 @@ function Login() {
       if (data.role === "USER") {
         try {
           const applicationResponse = await axios.get(
-            `http://localhost:8081/api/birth/user/${data.id}`
+            `${API_URL}/api/birth/user/${data.id}`
           );
 
           if (applicationResponse.data) {
