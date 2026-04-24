@@ -40,6 +40,12 @@ function CertificatePage() {
     navigate("/register");
   };
 
+  // ✅ DATE FORMAT FIX
+  const formatDate = (date) => {
+    if (!date) return new Date().toLocaleDateString("en-GB");
+    return new Date(date).toLocaleDateString("en-GB");
+  };
+
   if (!certificate) {
     return (
       <div className="container mt-5 text-center">
@@ -54,7 +60,7 @@ function CertificatePage() {
         {`
         body {
           background: #eef2ff;
-          font-family: 'Times New Roman', serif;
+          font-family: "Georgia", "Times New Roman", serif;
         }
 
         .certificate-wrapper {
@@ -66,14 +72,15 @@ function CertificatePage() {
 
         .certificate-container {
           width: 210mm;
-          height: 297mm;
+          min-height: 297mm; /* ✅ FIXED */
           background: #fff;
           border: 6px solid #1e3a8a;
-          padding: 10px;
+          padding: 12px;
           box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+          box-sizing: border-box;
         }
 
-        /* MOBILE SAFE SCALE */
+        /* 📱 MOBILE SAFE */
         @media (max-width: 768px) {
           .certificate-container {
             transform: scale(0.6);
@@ -84,56 +91,61 @@ function CertificatePage() {
         .certificate-inner {
           height: 100%;
           border: 2px solid #94a3b8;
-          padding: 20px 25px;
+          padding: 25px 30px;
           display: flex;
           flex-direction: column;
-          justify-content: space-between;
         }
 
         .gov-title {
           text-align: center;
-          font-size: 18px;
+          font-size: 22px;
           font-weight: bold;
           letter-spacing: 2px;
         }
 
         .dept-title {
           text-align: center;
-          font-size: 13px;
+          font-size: 15px;
         }
 
         .certificate-title {
           text-align: center;
-          font-size: 32px;
+          font-size: 40px;
           font-weight: bold;
-          margin: 10px 0;
+          margin: 15px 0;
           border-top: 2px solid black;
           border-bottom: 2px solid black;
-          padding: 6px;
+          padding: 10px;
         }
 
         .legal-text {
-          font-size: 12px;
+          font-size: 14px;
           text-align: center;
           margin: 10px 0;
+          line-height: 1.6;
         }
 
         .meta-row {
           display: flex;
           justify-content: space-between;
-          font-size: 13px;
+          font-size: 15px;
           margin-bottom: 10px;
         }
 
         .certificate-table {
           width: 100%;
           border-collapse: collapse;
+          margin-top: 15px;
         }
 
         .certificate-table td {
           border: 1.5px solid black;
-          padding: 6px;
-          font-size: 13px;
+          padding: 10px;
+          font-size: 15px;
+        }
+
+        .certificate-table tr {
+          height: 45px;
         }
 
         .certificate-table td:first-child {
@@ -143,6 +155,7 @@ function CertificatePage() {
         }
 
         .bottom-section {
+          margin-top: auto;
           display: flex;
           justify-content: space-between;
           align-items: flex-end;
@@ -153,7 +166,7 @@ function CertificatePage() {
         }
 
         .qr-label {
-          font-size: 10px;
+          font-size: 11px;
           margin-top: 5px;
           font-weight: bold;
         }
@@ -163,30 +176,30 @@ function CertificatePage() {
         }
 
         .signature-name {
-          font-size: 22px;
-          font-family: 'Segoe Script', 'Lucida Handwriting', cursive;
+          font-size: 28px;
+          font-family: "Brush Script MT", "Segoe Script", cursive;
           color: #1e3a8a;
         }
 
         .signature-line {
           border-top: 1px solid black;
-          margin-top: 5px;
-          padding-top: 5px;
-          font-size: 12px;
+          margin-top: 6px;
+          padding-top: 6px;
+          font-size: 13px;
         }
 
         .footer-note {
           text-align: center;
-          font-size: 11px;
-          margin-top: 10px;
+          font-size: 13px;
+          margin-top: 15px;
           border-top: 1px dashed gray;
-          padding-top: 5px;
+          padding-top: 8px;
         }
 
         .print-btn, .new-btn {
           display: block;
           margin: 10px auto;
-          padding: 10px 25px;
+          padding: 12px 28px;
           border: none;
           border-radius: 8px;
           color: white;
@@ -196,15 +209,25 @@ function CertificatePage() {
         .print-btn { background: #2563eb; }
         .new-btn { background: #16a34a; }
 
-        /* PRINT FIX (NO SPLIT) */
+        /* 🖨️ PRINT FIX (NO SPLIT EVER) */
         @media print {
-          .print-btn, .new-btn { display: none; }
+          html, body {
+            width: 210mm;
+            height: 297mm;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+          }
+
+          .print-btn, .new-btn {
+            display: none;
+          }
 
           .certificate-container {
-            transform: scale(1);
             page-break-after: avoid !important;
             page-break-inside: avoid !important;
-            overflow: hidden;
+            break-inside: avoid !important;
+            box-shadow: none;
           }
         }
         `}
@@ -222,7 +245,7 @@ function CertificatePage() {
 
               <div className="certificate-title">BIRTH CERTIFICATE</div>
 
-              {/* LEGAL TEXT */}
+              {/* LEGAL */}
               <div className="legal-text">
                 THIS IS TO CERTIFY THAT THE FOLLOWING INFORMATION HAS BEEN TAKEN FROM THE ORIGINAL RECORD OF BIRTH UNDER THE REGISTRATION OF BIRTHS & DEATHS ACT, 1969.
               </div>
@@ -240,11 +263,11 @@ function CertificatePage() {
                   <tr><td>Gender</td><td>{certificate.gender || "Male"}</td></tr>
                   <tr><td>Father Name</td><td>{certificate.fatherName}</td></tr>
                   <tr><td>Mother Name</td><td>{certificate.motherName}</td></tr>
-                  <tr><td>Date of Birth</td><td>{certificate.birthDate}</td></tr>
+                  <tr><td>Date of Birth</td><td>{formatDate(certificate.birthDate)}</td></tr>
                   <tr><td>Place of Birth</td><td>{certificate.hospitalName}</td></tr>
                   <tr><td>Address</td><td>{certificate.address || "Maharashtra"}</td></tr>
-                  <tr><td>Date of Registration</td><td>{certificate.registrationDate || "N/A"}</td></tr>
-                  <tr><td>Date of Issue</td><td>{certificate.issueDate || "N/A"}</td></tr>
+                  <tr><td>Date of Registration</td><td>{formatDate(certificate.registrationDate)}</td></tr>
+                  <tr><td>Date of Issue</td><td>{formatDate(certificate.issueDate)}</td></tr>
                 </tbody>
               </table>
             </div>
@@ -253,7 +276,7 @@ function CertificatePage() {
             <div>
               <div className="bottom-section">
                 <div className="qr-box">
-                  <QRCode value={certificate.registrationNumber} size={80}/>
+                  <QRCode value={certificate.registrationNumber} size={90}/>
                   <div className="qr-label">VERIFIED DIGITAL RECORD</div>
                 </div>
 
