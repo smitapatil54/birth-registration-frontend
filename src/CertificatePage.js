@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import QRCode from "react-qr-code";
+import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const API_URL = process.env.REACT_APP_API_URL;
@@ -8,6 +9,7 @@ const API_URL = process.env.REACT_APP_API_URL;
 function CertificatePage() {
   const [certificate, setCertificate] = useState(null);
   const certificateRef = useRef();
+  const navigate = useNavigate();
 
   useEffect(() => {
     loadCertificate();
@@ -33,6 +35,11 @@ function CertificatePage() {
     window.print();
   };
 
+  const handleNewRegistration = () => {
+    localStorage.removeItem("birthRegistration");
+    navigate("/register");
+  };
+
   if (!certificate) {
     return (
       <div className="container mt-5 text-center">
@@ -48,17 +55,19 @@ function CertificatePage() {
           body {
             background: #eef2ff;
             font-family: 'Times New Roman', serif;
+            overflow-x: hidden;
           }
 
           .certificate-wrapper {
             display: flex;
             justify-content: center;
-            padding: 20px 0 40px;
+            padding: 20px 10px 40px;
           }
 
+          /* ✅ RESPONSIVE FIX (only change) */
           .certificate-container {
-            width: 210mm;
-            min-height: 297mm;
+            width: 90%;
+            max-width: 900px;
             background: #fff;
             border: 6px solid #1e3a8a;
             padding: 10px;
@@ -209,7 +218,7 @@ function CertificatePage() {
 
           .print-btn {
             display: block;
-            margin: 25px auto 40px;
+            margin: 25px auto 10px;
             border: none;
             border-radius: 10px;
             background: #2563eb;
@@ -217,6 +226,49 @@ function CertificatePage() {
             padding: 12px 28px;
             font-size: 16px;
             font-weight: bold;
+          }
+
+          .new-btn {
+            display: block;
+            margin: 10px auto 40px;
+            border: none;
+            border-radius: 10px;
+            background: #16a34a;
+            color: white;
+            padding: 12px 28px;
+            font-size: 16px;
+            font-weight: bold;
+          }
+
+          /* 📱 MOBILE RESPONSIVE */
+          @media (max-width: 768px) {
+            .meta-row {
+              flex-direction: column;
+              gap: 10px;
+            }
+
+            .certificate-title {
+              font-size: 22px;
+            }
+
+            .certificate-table td {
+              font-size: 12px;
+              padding: 6px;
+            }
+
+            .bottom-section {
+              flex-direction: column;
+              align-items: center;
+              gap: 15px;
+            }
+
+            .signature {
+              width: 100%;
+            }
+
+            .qr-box {
+              width: auto;
+            }
           }
 
           @page {
@@ -229,12 +281,8 @@ function CertificatePage() {
               background: white;
             }
 
-            .print-btn {
+            .print-btn, .new-btn {
               display: none;
-            }
-
-            .certificate-wrapper {
-              padding: 0;
             }
 
             .certificate-container {
@@ -243,21 +291,6 @@ function CertificatePage() {
               margin: 0;
               box-shadow: none;
               border: 6px solid #1e3a8a;
-              overflow: hidden;
-              page-break-after: avoid;
-              page-break-inside: avoid;
-            }
-
-            .certificate-inner {
-              height: 100%;
-            }
-
-            .bottom-section {
-              margin-top: 18px;
-            }
-
-            .footer-note {
-              margin-top: 14px;
             }
           }
         `}
@@ -266,6 +299,7 @@ function CertificatePage() {
       <div className="certificate-wrapper">
         <div ref={certificateRef} className="certificate-container">
           <div className="certificate-inner">
+
             <div className="gov-title">
               GOVERNMENT OF MAHARASHTRA
             </div>
@@ -301,35 +335,12 @@ function CertificatePage() {
 
             <table className="certificate-table">
               <tbody>
-                <tr>
-                  <td>Child Name</td>
-                  <td>{certificate.childName}</td>
-                </tr>
-
-                <tr>
-                  <td>Father Name</td>
-                  <td>{certificate.fatherName}</td>
-                </tr>
-
-                <tr>
-                  <td>Mother Name</td>
-                  <td>{certificate.motherName}</td>
-                </tr>
-
-                <tr>
-                  <td>Date Of Birth</td>
-                  <td>{certificate.birthDate}</td>
-                </tr>
-
-                <tr>
-                  <td>Place Of Birth</td>
-                  <td>{certificate.hospitalName}</td>
-                </tr>
-
-                <tr>
-                  <td>Registration Number</td>
-                  <td>{certificate.registrationNumber}</td>
-                </tr>
+                <tr><td>Child Name</td><td>{certificate.childName}</td></tr>
+                <tr><td>Father Name</td><td>{certificate.fatherName}</td></tr>
+                <tr><td>Mother Name</td><td>{certificate.motherName}</td></tr>
+                <tr><td>Date Of Birth</td><td>{certificate.birthDate}</td></tr>
+                <tr><td>Place Of Birth</td><td>{certificate.hospitalName}</td></tr>
+                <tr><td>Registration Number</td><td>{certificate.registrationNumber}</td></tr>
               </tbody>
             </table>
 
@@ -339,33 +350,29 @@ function CertificatePage() {
                   value={`${certificate.registrationNumber} | ${certificate.applicationId}`}
                   size={90}
                 />
-
-                <div className="qr-label">
-                  VERIFIED DIGITAL RECORD
-                </div>
+                <div className="qr-label">VERIFIED DIGITAL RECORD</div>
               </div>
 
               <div className="signature">
-                <div className="signature-name">
-                  {certificate.issuedBy}
-                </div>
-
-                <div className="signature-line">
-                  Authorized BMC Officer
-                </div>
+                <div className="signature-name">{certificate.issuedBy}</div>
+                <div className="signature-line">Authorized BMC Officer</div>
               </div>
             </div>
 
             <div className="footer-note">
-              This is a digitally generated certificate and does not require a
-              physical signature.
+              This is a digitally generated certificate and does not require a physical signature.
             </div>
+
           </div>
         </div>
       </div>
 
       <button className="print-btn" onClick={printCertificate}>
         Print Certificate
+      </button>
+
+      <button className="new-btn" onClick={handleNewRegistration}>
+        New Registration
       </button>
     </>
   );
