@@ -55,19 +55,18 @@ function CertificatePage() {
           body {
             background: #eef2ff;
             font-family: 'Times New Roman', serif;
-            overflow-x: hidden;
           }
 
           .certificate-wrapper {
             display: flex;
             justify-content: center;
-            padding: 20px 10px 40px;
+            padding: 20px;
+            overflow-x: auto;
           }
 
-          /* ✅ RESPONSIVE FIX (only change) */
           .certificate-container {
-            width: 90%;
-            max-width: 900px;
+            width: 210mm;
+            height: 297mm;
             background: #fff;
             border: 6px solid #1e3a8a;
             padding: 10px;
@@ -75,12 +74,19 @@ function CertificatePage() {
             box-sizing: border-box;
           }
 
+          /* 📱 MOBILE SCALE FIX (SAFE) */
+          @media (max-width: 768px) {
+            .certificate-container {
+              transform: scale(0.6);
+              transform-origin: top center;
+            }
+          }
+
           .certificate-inner {
             height: 100%;
             border: 2px solid #94a3b8;
             padding: 24px 30px;
             position: relative;
-            box-sizing: border-box;
           }
 
           .certificate-inner::before {
@@ -91,34 +97,30 @@ function CertificatePage() {
             right: 8px;
             bottom: 8px;
             border: 1px solid #cbd5e1;
-            pointer-events: none;
           }
 
           .gov-title {
             text-align: center;
-            font-size: 15px;
+            font-size: 18px;
             font-weight: bold;
             letter-spacing: 2px;
-            color: #111827;
           }
 
           .dept-title {
             text-align: center;
-            margin-top: 4px;
             font-size: 14px;
-            color: #475569;
+            margin-top: 4px;
           }
 
           .certificate-title {
             text-align: center;
             color: #1e3a8a;
-            font-size: 34px;
+            font-size: 36px;
             font-weight: bold;
-            letter-spacing: 3px;
-            margin: 18px 0 24px;
-            padding: 12px 0;
-            border-top: 1px solid #cbd5e1;
-            border-bottom: 1px solid #cbd5e1;
+            margin: 20px 0;
+            border-top: 2px solid #000;
+            border-bottom: 2px solid #000;
+            padding: 10px;
           }
 
           .meta-row {
@@ -127,170 +129,73 @@ function CertificatePage() {
             margin-bottom: 18px;
           }
 
-          .meta-label {
-            display: block;
-            font-size: 12px;
-            font-weight: bold;
-            color: #475569;
-            margin-bottom: 4px;
-          }
-
-          .meta-value {
-            font-size: 18px;
-            font-weight: bold;
-            color: #111827;
-          }
-
           .certificate-text {
             text-align: center;
             font-size: 16px;
-            line-height: 1.7;
-            color: #374151;
             margin-bottom: 20px;
           }
 
           .certificate-table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 10px;
           }
 
           .certificate-table td {
-            border: 1.5px solid #475569;
-            padding: 10px 12px;
-            font-size: 15px;
+            border: 2px solid #000;
+            padding: 10px;
           }
 
           .certificate-table td:first-child {
-            width: 34%;
-            background: #f8fafc;
+            background: #f1f5f9;
             font-weight: bold;
           }
 
           .bottom-section {
             display: flex;
             justify-content: space-between;
-            align-items: flex-end;
-            margin-top: 22px;
-          }
-
-          .qr-box {
-            width: 140px;
-            border: 1.5px solid #475569;
-            padding: 10px;
-            text-align: center;
-          }
-
-          .qr-label {
-            margin-top: 8px;
-            font-size: 11px;
-            font-weight: bold;
-            color: #374151;
-          }
-
-          .signature {
-            text-align: center;
-            width: 220px;
+            margin-top: 25px;
           }
 
           .signature-name {
-            font-size: 28px;
-            font-family: 'Brush Script MT', cursive;
-            color: #1e3a8a;
+            font-size: 26px;
+            font-family: cursive;
           }
 
           .signature-line {
-            border-top: 1.5px solid #111827;
-            margin-top: 8px;
-            padding-top: 8px;
-            font-size: 13px;
-            font-weight: bold;
+            border-top: 2px solid black;
+            margin-top: 6px;
+            padding-top: 6px;
           }
 
           .footer-note {
-            margin-top: 18px;
             text-align: center;
             font-size: 12px;
-            color: #6b7280;
-            border-top: 1px dashed #cbd5e1;
-            padding-top: 10px;
+            margin-top: 20px;
+            border-top: 1px dashed #999;
+            padding-top: 8px;
           }
 
-          .print-btn {
+          .print-btn, .new-btn {
             display: block;
-            margin: 25px auto 10px;
+            margin: 10px auto;
+            padding: 12px 28px;
             border: none;
             border-radius: 10px;
-            background: #2563eb;
             color: white;
-            padding: 12px 28px;
-            font-size: 16px;
             font-weight: bold;
           }
 
-          .new-btn {
-            display: block;
-            margin: 10px auto 40px;
-            border: none;
-            border-radius: 10px;
-            background: #16a34a;
-            color: white;
-            padding: 12px 28px;
-            font-size: 16px;
-            font-weight: bold;
-          }
+          .print-btn { background: #2563eb; }
+          .new-btn { background: #16a34a; }
 
-          /* 📱 MOBILE RESPONSIVE */
-          @media (max-width: 768px) {
-            .meta-row {
-              flex-direction: column;
-              gap: 10px;
-            }
-
-            .certificate-title {
-              font-size: 22px;
-            }
-
-            .certificate-table td {
-              font-size: 12px;
-              padding: 6px;
-            }
-
-            .bottom-section {
-              flex-direction: column;
-              align-items: center;
-              gap: 15px;
-            }
-
-            .signature {
-              width: 100%;
-            }
-
-            .qr-box {
-              width: auto;
-            }
-          }
-
-          @page {
-            size: A4 portrait;
-            margin: 0;
-          }
-
+          /* 🖨️ PRINT FIX */
           @media print {
-            body {
-              background: white;
-            }
-
-            .print-btn, .new-btn {
-              display: none;
-            }
+            .print-btn, .new-btn { display: none; }
 
             .certificate-container {
-              width: 210mm;
-              height: 297mm;
-              margin: 0;
-              box-shadow: none;
-              border: 6px solid #1e3a8a;
+              transform: scale(1);
+              page-break-after: avoid !important;
+              page-break-inside: avoid !important;
             }
           }
         `}
@@ -300,67 +205,39 @@ function CertificatePage() {
         <div ref={certificateRef} className="certificate-container">
           <div className="certificate-inner">
 
-            <div className="gov-title">
-              GOVERNMENT OF MAHARASHTRA
-            </div>
-
-            <div className="dept-title">
-              Municipal Corporation Birth Registration Department
-            </div>
-
-            <div className="certificate-title">
-              BIRTH CERTIFICATE
-            </div>
+            <div className="gov-title">GOVERNMENT OF MAHARASHTRA</div>
+            <div className="dept-title">Birth Registration Department</div>
+            <div className="certificate-title">BIRTH CERTIFICATE</div>
 
             <div className="meta-row">
-              <div>
-                <span className="meta-label">Registration Number</span>
-                <div className="meta-value">
-                  {certificate.registrationNumber}
-                </div>
-              </div>
-
-              <div style={{ textAlign: "right" }}>
-                <span className="meta-label">Application ID</span>
-                <div className="meta-value">
-                  {certificate.applicationId}
-                </div>
-              </div>
+              <span>Reg No: {certificate.registrationNumber}</span>
+              <span>App ID: {certificate.applicationId}</span>
             </div>
 
-            <p className="certificate-text">
-              This is to certify that the following birth has been duly
-              registered in the records of the Municipal Corporation.
-            </p>
+            <div className="certificate-text">
+              This is to certify that the following birth has been registered.
+            </div>
 
             <table className="certificate-table">
               <tbody>
                 <tr><td>Child Name</td><td>{certificate.childName}</td></tr>
                 <tr><td>Father Name</td><td>{certificate.fatherName}</td></tr>
                 <tr><td>Mother Name</td><td>{certificate.motherName}</td></tr>
-                <tr><td>Date Of Birth</td><td>{certificate.birthDate}</td></tr>
-                <tr><td>Place Of Birth</td><td>{certificate.hospitalName}</td></tr>
-                <tr><td>Registration Number</td><td>{certificate.registrationNumber}</td></tr>
+                <tr><td>Date of Birth</td><td>{certificate.birthDate}</td></tr>
+                <tr><td>Place of Birth</td><td>{certificate.hospitalName}</td></tr>
               </tbody>
             </table>
 
             <div className="bottom-section">
-              <div className="qr-box">
-                <QRCode
-                  value={`${certificate.registrationNumber} | ${certificate.applicationId}`}
-                  size={90}
-                />
-                <div className="qr-label">VERIFIED DIGITAL RECORD</div>
-              </div>
-
-              <div className="signature">
+              <QRCode value={certificate.registrationNumber} size={90}/>
+              <div>
                 <div className="signature-name">{certificate.issuedBy}</div>
-                <div className="signature-line">Authorized BMC Officer</div>
+                <div className="signature-line">Authorized Officer</div>
               </div>
             </div>
 
             <div className="footer-note">
-              This is a digitally generated certificate and does not require a physical signature.
+              Digitally generated certificate.
             </div>
 
           </div>
