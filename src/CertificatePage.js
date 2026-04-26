@@ -40,7 +40,6 @@ function CertificatePage() {
     navigate("/register");
   };
 
-  // ✅ DATE FORMAT FIX
   const formatDate = (date) => {
     if (!date) return new Date().toLocaleDateString("en-GB");
     return new Date(date).toLocaleDateString("en-GB");
@@ -72,15 +71,15 @@ function CertificatePage() {
 
         .certificate-container {
           width: 210mm;
-          min-height: 297mm; /* ✅ FIXED */
+          height: 297mm; /* ✅ FIXED HEIGHT */
           background: #fff;
           border: 6px solid #1e3a8a;
           padding: 12px;
           box-shadow: 0 10px 30px rgba(0,0,0,0.2);
           box-sizing: border-box;
+          overflow: hidden; /* 🔥 important */
         }
 
-        /* 📱 MOBILE SAFE */
         @media (max-width: 768px) {
           .certificate-container {
             transform: scale(0.6);
@@ -209,7 +208,7 @@ function CertificatePage() {
         .print-btn { background: #2563eb; }
         .new-btn { background: #16a34a; }
 
-        /* 🖨️ PRINT FIX (NO SPLIT EVER) */
+        /* 🖨️ PRINT FIX */
         @media print {
           html, body {
             width: 210mm;
@@ -224,9 +223,11 @@ function CertificatePage() {
           }
 
           .certificate-container {
+            height: 297mm;
             page-break-after: avoid !important;
             page-break-inside: avoid !important;
             break-inside: avoid !important;
+            overflow: hidden;
             box-shadow: none;
           }
         }
@@ -237,7 +238,6 @@ function CertificatePage() {
         <div ref={certificateRef} className="certificate-container">
           <div className="certificate-inner">
 
-            {/* HEADER */}
             <div>
               <div className="gov-title">GOVERNMENT OF MAHARASHTRA</div>
               <div className="dept-title">DEPARTMENT OF HEALTH</div>
@@ -245,34 +245,30 @@ function CertificatePage() {
 
               <div className="certificate-title">BIRTH CERTIFICATE</div>
 
-              {/* LEGAL */}
               <div className="legal-text">
                 THIS IS TO CERTIFY THAT THE FOLLOWING INFORMATION HAS BEEN TAKEN FROM THE ORIGINAL RECORD OF BIRTH UNDER THE REGISTRATION OF BIRTHS & DEATHS ACT, 1969.
               </div>
 
-              {/* META */}
               <div className="meta-row">
                 <span>Reg No: {certificate.registrationNumber}</span>
                 <span>App ID: {certificate.applicationId}</span>
               </div>
 
-              {/* TABLE */}
               <table className="certificate-table">
                 <tbody>
                   <tr><td>Child Name</td><td>{certificate.childName}</td></tr>
-                  <tr><td>Gender</td><td>{certificate.gender || "Male"}</td></tr>
+                  <tr><td>Gender</td><td>{certificate.gender}</td></tr>
                   <tr><td>Father Name</td><td>{certificate.fatherName}</td></tr>
                   <tr><td>Mother Name</td><td>{certificate.motherName}</td></tr>
                   <tr><td>Date of Birth</td><td>{formatDate(certificate.birthDate)}</td></tr>
                   <tr><td>Place of Birth</td><td>{certificate.hospitalName}</td></tr>
-                  <tr><td>Address</td><td>{certificate.address || "Maharashtra"}</td></tr>
+                  <tr><td>Address</td><td>{certificate.address}</td></tr>
                   <tr><td>Date of Registration</td><td>{formatDate(certificate.registrationDate)}</td></tr>
                   <tr><td>Date of Issue</td><td>{formatDate(certificate.issueDate)}</td></tr>
                 </tbody>
               </table>
             </div>
 
-            {/* BOTTOM */}
             <div>
               <div className="bottom-section">
                 <div className="qr-box">
